@@ -7,18 +7,25 @@ plugins {
 //apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.Tap-Payments'
-android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
-
-    buildTypes.all {
-        buildConfigField "int", "VERSION_CODE", "50"
+def getVersionName = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags', '--always'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
     }
-
+    catch (ignored) {
+        return null;
+    }
+}
+android {
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,11 +38,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     namespace 'company.tap.tapcardformkit'
 
@@ -48,15 +55,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation ('com.github.Tap-Payments:TapNFCCardReaderKit-Android:0.0.4.1') {
-        exclude group: 'com.flurry.android', module: 'analytics'
-    }
-    api ('com.github.Tap-Payments:TapUIKit-Android:2.0.12') {
-        exclude group: 'com.flurry.android', module: 'analytics'
-    }
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     implementation 'com.github.Tap-Payments:TapNetwrok-Android:0.2.2.44'
+   // implementation project(path: ':tapnetworkkit')
     api 'com.google.code.gson:gson:2.10'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
@@ -64,8 +66,6 @@ dependencies {
     /**
      * update this library in tapUiLibrary to be used automatically
      */
-    api 'com.github.Tap-Payments:TapCardScannerKit-Android:0.0.3.1'
-    implementation 'company.tap:PayCards-Tap-Android:0.1.6.4'
     api 'com.github.Tap-Payments:CommonDataModelsWeb-Andriod:0.0.14'
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
@@ -80,7 +80,7 @@ dependencies {
 }
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier.set('sources')
 }
 
 artifacts {

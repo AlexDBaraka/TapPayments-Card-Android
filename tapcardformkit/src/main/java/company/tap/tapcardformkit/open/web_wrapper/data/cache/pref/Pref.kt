@@ -2,10 +2,9 @@ package company.tap.tapcardformkit.open.web_wrapper.data.cache.pref
 
 import android.content.Context
 import android.content.SharedPreferences
-import company.tap.tapcardformkit.BuildConfig
 
 object Pref {
-    private val PREF_FILE: String = BuildConfig.LIBRARY_PACKAGE_NAME.replace(".", "_")
+    private val PREF_FILE: String = "com.chillibits.simplesettings".replace(".", "_")
     private var sharedPreferences: SharedPreferences? = null
     private fun openPref(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)

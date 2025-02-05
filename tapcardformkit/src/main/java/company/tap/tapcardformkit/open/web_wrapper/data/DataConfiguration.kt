@@ -12,7 +12,6 @@ import company.tap.tapcardformkit.R
 import company.tap.tapcardformkit.open.web_wrapper.TapCardConfiguration
 import company.tap.tapcardformkit.open.web_wrapper.TapCardKit
 import company.tap.taplocalizationkit.LocalizationManager
-import company.tap.tapuilibrary.themekit.ThemeManager
 import java.util.*
 
 /**
@@ -57,33 +56,6 @@ object DataConfiguration {
             field = value
         }
 
-
-    fun setTheme(
-        context: Context?,
-        resources: Resources?,
-        urlString: String?,
-        urlPathLocal: Int?,
-        fileName: String?
-    ) {
-        if (resources != null && urlPathLocal != null) {
-            if (fileName != null && fileName.contains("dark")) {
-                if (urlPathLocal != null) {
-                    ThemeManager.loadTapTheme(resources, urlPathLocal, "darktheme")
-                }
-            } else {
-                if (urlPathLocal != null) {
-                    ThemeManager.loadTapTheme(resources, urlPathLocal, "lighttheme")
-                }
-            }
-        } else if (urlString != null) {
-            if (context != null) {
-                println("urlString>>>" + urlString)
-                ThemeManager.loadTapTheme(context, urlString, "lighttheme")
-            }
-        }
-
-    }
-
     fun setLocale(
         context: Context,
         languageString: String,
@@ -118,10 +90,6 @@ object DataConfiguration {
         this.tapCardStatusDelegate = _tapCardStatuDelegate
 
 
-    }
-
-    fun removeTapCardStatusDelegate() {
-        this.tapCardStatusDelegate = null
     }
 
     fun getTapCardStatusListener(): TapCardStatusDelegate? {

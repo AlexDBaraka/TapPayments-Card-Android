@@ -22,6 +22,8 @@ class TapCardConfiguration {
             tapCardStatusDelegate: TapCardStatusDelegate? = null,
             cardNumber: String = "",
             cardExpiry: String = "",
+            cardCvv: String = "",
+            cardHolderName : String= ""
         ) {
             with(tapMapConfiguration) {
                 configurationsAsHashMap = tapMapConfiguration
@@ -33,10 +35,17 @@ class TapCardConfiguration {
                     publickKey.toString()
                 )
                 DataConfiguration.addTapCardStatusDelegate(tapCardStatusDelegate)
-                tapCardInputViewWeb?.init(cardNumber.filter { it.isDigit() }, cardExpiry)
-
-
+                tapCardInputViewWeb?.init(
+                    cardNumber.filter { it.isDigit() },
+                    cardExpiry,
+                    cardCvv,
+                    cardHolderName
+                )
             }
+        }
+
+        fun removeTapCardStatusDelegate() {
+            DataConfiguration.removeTapCardStatusDelegate()
         }
 
         fun addOperatorHeaderField(
@@ -66,8 +75,6 @@ class TapCardConfiguration {
             hashMapHeader[HeadersMdn] = headers.mdn.toString()
             hashMapHeader[HeadersApplication] = headers.application.toString()
             configurationsAsHashMap?.put(headersKey, hashMapHeader)
-
-
         }
     }
 }

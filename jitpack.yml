@@ -1,0 +1,4 @@
+jdk: oraclejdk-11 # Or your preferred JDK version (e.g., oraclejdk-17)
+
+install:
+  -./gradlew assembleRelease # Correct path and task for Android Library
